@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import notesRoutes from "./routes/notesRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import { connectDb } from './config/db.js';
-import rateLimiter from './middleware/rateLimiter.js";
+import rateLimiter from './middleware/rateLimiter.js';
 
 dotenv.config();
 
