@@ -22,7 +22,7 @@ app.use(cookieParser());
 const allowedOrigins = [
   "http://localhost:5173",   // dev
   "http://localhost:4173",   // preview
-  "https://notesmobilefrontend.vercel.app" // production frontend
+  "https://notes-mobile-frontend.vercel.app" // production frontend
 ];
 
 app.use(cors({
