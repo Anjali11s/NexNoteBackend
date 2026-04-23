@@ -18,7 +18,8 @@ const __dirname = path.resolve();
 // middleware
 app.use(cookieParser());
 
-// ✅ Allow both dev and production origins
+
+// Allow both dev and production origins
 const allowedOrigins = [
   "http://localhost:5173",   // dev
   "http://localhost:4173",   // preview
@@ -45,6 +46,20 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  
+  // Handle MongoDB CastError (invalid ObjectId)
+  if (err.name === 'CastError') {
+    return res.status(404).json({ message: 'Resource not found' });
+  }
+  res.status(500).json({ 
+    message: 'Internal server error',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
+});
+
+// Connect to database and start server
 connectDb().then(() => {
   app.listen(PORT, () => {
     console.log("server started on port :", PORT);

@@ -1,17 +1,31 @@
 import Note from "../models/Note.js"
 
-export async function getAllNotes(req,res){ // now we can directly write '/' instread of '.api/notes' because we have already defined the base route in server.js
-    // res.status(200).send("You just fetched the notes");
-    try {
-        const notes = await Note.find({ userId: req.userId }).sort({ createdAt: -1 }); // -1 will sort in desc order (latest first)
-        res.status(200).json(notes);
-    } catch (error) {
-        console.error("Error in getting all notes: ",error)
-        res.status(500).json({message: "Internal Server Error"})
-    }
+// export async function getAllNotes(req,res){ // now we can directly write '/' instread of '.api/notes' because we have already defined the base route in server.js
+//     // res.status(200).send("You just fetched the notes");
+//     try {
+//         const notes = await Note.find({ userId: req.userId }).sort({ createdAt: -1 }); // -1 will sort in desc order (latest first)
+//         res.status(200).json(notes);
+//     } catch (error) {
+//         console.error("Error in getting all notes: ",error)
+//         res.status(500).json({message: "Internal Server Error"})
+//     }
 
-}; 
+// }; 
 
+
+export async function getAllNotes(req, res) {
+  try {
+    const notes = await Note.find({ userId: req.userId }).sort({ createdAt: -1 });
+    res.status(200).json(notes);
+  } catch (error) {
+    console.error("❌ Error in getAllNotes:", error);
+    console.error("Error details:", error.message);
+    res.status(500).json({ 
+      message: "Internal Server Error",
+      error: error.message 
+    });
+  }
+}
 // GET SINGLE NOTE - Check ownership
 export async function getNotes(req, res) {
   try {
